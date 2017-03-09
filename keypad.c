@@ -41,6 +41,7 @@ void init_columns(void) {
 			HAL_GPIO_Init(GPIOA, &GPIOA_init);
 			HAL_GPIO_Init(GPIOC, &GPIOC_init);
 }
+
 //Checks if a row has been pressed and returns a value of the row pressed (otherwise 0).
 uint8_t read_rows(void){
 	init_rows();
@@ -52,6 +53,7 @@ uint8_t read_rows(void){
 	else return 0;
 
 }
+
 //Checks if a column has been pressed and returns a value of the column pressed (otherwise 0).
 uint8_t read_columns(void){
 	init_columns();
@@ -61,5 +63,48 @@ uint8_t read_columns(void){
 	else if(!HAL_GPIO_READPin(GPIOC, GPIO_PIN_2)) return 3;
 	else return 0;
 
-}	
+}
+int8_t determine_key(uint8_t row, uint8_t column){
+	uint8_t key = row*10 + column;
+	//Assigns the proper value of the key pressed.
+	switch(key){
+		case 11:
+			return 1;
+		case 12:
+			return 2;
+		case 13:
+			return 3;
+		case 21:
+			return 4;
+		case 22:
+			return 5;
+		case 23:
+			return 6;
+		case 31:
+			return 7;
+		case 32:
+			return 8;
+		case 33:
+			return 9;
+		case 41:
+			return 11; //* key
+		case 42:
+			return 0; 
+		case 43:
+			return 12; //# key 
+		default:
+			printf("Error: unable to map keys \n");			
+	}
+}
+int return_key(void) {
+	int i = 0;
+	uint8_t row, column;
+	uint8_t key;
+	//Handles the interupt.
+	if((column = read_columns()) == 0) return -1;
+	if((row = read_rows()) == 0) return -1;
+	key = determine_key(row, column);
+	while(1){
+			
+	}
 }
