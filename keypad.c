@@ -116,3 +116,81 @@ int return_key(void) {
 	printf("%d was pressed.\n", key);
 	return key;
 }
+//Converts the user's presses into a 3 digit number. Key stage set to 4 when input is taken.
+void order_key(int* values) {
+	int key;
+	switch(key_stage){
+	case(0):
+		//If the first key pressed isn't a number effectively ignore it.
+		if(key = return_key()) == -1 || key == 11 || key == 12){
+			output[0] = -1;
+		}
+		else{
+			output[0] = key;
+			output[1] = 0;
+			key_stage++;
+		}
+		return;
+	case(1):
+		if(key = return_key()) == -1){
+			return -1;
+		}
+		//If enter is pressed signals the end of the input.
+		else if(key = return_key()) == 12){
+			output[2] = 0;
+			output[3] = 0;
+			key_stage = 4;
+		}
+		//If delete is pressed delete prior key (hold is checked elsewhere).
+		else if(key = return_key()) == 11){
+			output[0] = 0;
+			key_stage--;
+		}
+		else{
+			output[1] = key;
+			output[2] = 0;
+			key_stage++;			
+		}
+		return;
+	case(2):
+		if(key = return_key()) == -1){
+			return -1;
+		}
+		//If enter is pressed signals the end of the input.
+		else if(key = return_key()) == 12){
+			output[3] = 0;
+			key_stage = 4;
+		}
+		//If delete is pressed delete prior key (hold is checked elsewhere).
+		else if(key = return_key()) == 11){
+			output[1] = 0;
+			key_stage--;
+		}
+		else{
+			output[2] = key;
+			output[3] = 0;
+			key_stage++;			
+		}
+		return;
+	case(3):
+		if(key = return_key()) == -1){
+			return -1;
+		}
+		//If enter is pressed signals the end of the input.
+		else if(key = return_key()) == 12){
+			key_stage = 4;
+		}
+		//If delete is pressed delete prior key (hold is checked elsewhere).
+		else if(key = return_key()) == 11){
+			output[2] = 0;
+			key_stage--;
+		}
+		else{
+			output[3] = key;
+			key_stage++;			
+		}
+		return;
+	default:
+		return -1;
+	
+}
