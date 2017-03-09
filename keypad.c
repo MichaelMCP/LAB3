@@ -96,8 +96,9 @@ int8_t determine_key(uint8_t row, uint8_t column){
 			printf("Error: unable to map keys \n");			
 	}
 }
+//Filters out noise and returns value of key pressed.
 int return_key(void) {
-	int i = 0;
+	int j = 0;
 	uint8_t row, column;
 	uint8_t key;
 	//Handles the interupt.
@@ -105,6 +106,13 @@ int return_key(void) {
 	if((row = read_rows()) == 0) return -1;
 	key = determine_key(row, column);
 	while(1){
-			
+		while(determine_key(read_rows(),read_columns()) == key){
+			j++;
+			delay(25);
+		}
+		if(j > 2) break;
+		else return return_key();
 	}
+	printf("%d was pressed.\n", key);
+	return key;
 }
