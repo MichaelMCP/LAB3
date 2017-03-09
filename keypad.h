@@ -13,3 +13,11 @@ void init_columns(void);
 uint8_t read_rows(void);
 
 uint8_t read_columns(void);
+
+int8_t determine_key(uint8_t row, uint8_t column);
+
+int return_key(void);
+
+void order_key(int* values);
+
+#endif
