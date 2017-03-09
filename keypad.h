@@ -9,3 +9,7 @@
 void init_rows(void);
 
 void init_columns(void);
+
+uint8_t read_rows(void);
+
+uint8_t read_columns(void);
