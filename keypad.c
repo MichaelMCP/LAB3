@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "keypad.h"
+#include "main.h"
 GPIO_InitTypeDef GPIOA_init;
 GPIO_InitTypeDef GPIOC_init;
 
@@ -117,12 +118,12 @@ int return_key(void) {
 	return key;
 }
 //Converts the user's presses into a 3 digit number. Key stage set to 4 when input is taken.
-void order_key(int* values) {
+void order_key(int* output) {
 	int key;
 	switch(key_stage){
 	case(0):
 		//If the first key pressed isn't a number effectively ignore it.
-		if(key = return_key()) == -1 || key == 11 || key == 12){
+		if((key = return_key()) == -1 || key == 11 || key == 12){
 			output[0] = -1;
 		}
 		else{
@@ -132,17 +133,18 @@ void order_key(int* values) {
 		}
 		return;
 	case(1):
-		if(key = return_key()) == -1){
-			return -1;
+		if((key = return_key()) == -1){
+			printf("Error: no value given for key \n");			
+			return;
 		}
 		//If enter is pressed signals the end of the input.
-		else if(key = return_key()) == 12){
+		else if((key = return_key()) == 12){
 			output[2] = 0;
 			output[3] = 0;
 			key_stage = 4;
 		}
 		//If delete is pressed delete prior key (hold is checked elsewhere).
-		else if(key = return_key()) == 11){
+		else if((key = return_key()) == 11){
 			output[0] = 0;
 			key_stage--;
 		}
@@ -153,16 +155,17 @@ void order_key(int* values) {
 		}
 		return;
 	case(2):
-		if(key = return_key()) == -1){
-			return -1;
+		if((key = return_key()) == -1){
+			printf("Error: no value given for key \n");	
+			return;
 		}
 		//If enter is pressed signals the end of the input.
-		else if(key = return_key()) == 12){
+		else if((key = return_key()) == 12){
 			output[3] = 0;
 			key_stage = 4;
 		}
 		//If delete is pressed delete prior key (hold is checked elsewhere).
-		else if(key = return_key()) == 11){
+		else if((key = return_key()) == 11){
 			output[1] = 0;
 			key_stage--;
 		}
@@ -173,15 +176,16 @@ void order_key(int* values) {
 		}
 		return;
 	case(3):
-		if(key = return_key()) == -1){
-			return -1;
+		if((key = return_key()) == -1){
+			printf("Error: no value given for key \n");	
+			return;
 		}
 		//If enter is pressed signals the end of the input.
-		else if(key = return_key()) == 12){
+		else if((key = return_key()) == 12){
 			key_stage = 4;
 		}
 		//If delete is pressed delete prior key (hold is checked elsewhere).
-		else if(key = return_key()) == 11){
+		else if((key = return_key()) == 11){
 			output[2] = 0;
 			key_stage--;
 		}
@@ -191,6 +195,8 @@ void order_key(int* values) {
 		}
 		return;
 	default:
-		return -1;
+				printf("Error: default case reached key_stage value too high/low. \n");	
+		return;
 	
+	}
 }
